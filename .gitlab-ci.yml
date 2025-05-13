@@ -1,0 +1,24 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - make
+    - ./microservice
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - ./microservice | grep "Service Name: SecureMicroservice"
+
+deploy:
+  stage: deploy
+  script:
+    - docker build -t myregistry/microservice:latest .
+    - docker push myregistry/microservice:latest
+    - kubectl apply -f kubernetes/deployment.yaml
+    - kubectl apply -f kubernetes/service.yaml
