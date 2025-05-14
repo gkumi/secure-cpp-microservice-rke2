@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-deployment
+  name: secure-microservice-deployment
+  labels:
+    app: secure-microservice
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: microservice
+      app: secure-microservice
   template:
     metadata:
       labels:
-        app: microservice
+        app: secure-microservice
     spec:
       containers:
-      - name: microservice
-        image: myregistry/microservice:latest
+      - name: secure-microservice
+        image: gkumi94/secure-microservice:latest
         ports:
         - containerPort: 8080

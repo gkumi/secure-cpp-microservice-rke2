@@ -15,7 +15,11 @@ class MicroService : public BaseService {
 public:
     void processRequest() override {
         json config;
-        std::ifstream configFile("src/config.json");
+        std::ifstream configFile("/app/secure-cpp-microservice-rke2/src/config.json"); // Absolute path
+        if (!configFile) {
+            std::cerr << "Error: Cannot open config.json" << std::endl;
+            return;
+        }
         configFile >> config;
         std::cout << "Service Name: " << config["name"] << std::endl;
 
@@ -23,7 +27,7 @@ public:
         XMLElement* root = doc.NewElement("Response");
         root->SetAttribute("status", "success");
         doc.InsertFirstChild(root);
-        doc.SaveFile("src/response.xml");
+        doc.SaveFile("/app/secure-cpp-microservice-rke2/src/response.xml"); // Absolute path
         std::cout << "XML response generated." << std::endl;
     }
 };
